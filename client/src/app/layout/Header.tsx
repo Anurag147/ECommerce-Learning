@@ -73,39 +73,39 @@ const Header = (props:HeaderProps) => {
                     })}
                 </List>
                 <Box sx={{display:'flex',alignItems:'center'}}>
-                <IconButton size="large" sx={{color:'inherit'}}>
-                    <Badge badgeContent={4} color='secondary'>
-                        <ShoppingCart/>
-                    </Badge>
-                </IconButton>
-                <List sx={{display:'flex'}}>
-                    {rightLinks.map((link)=>{
-                        return (
-                            <>
-                                <ListItem 
-                                component={NavLink}
-                                to={link.path}
-                                key={link.path}
-                                sx=
-                                    {
+                    <IconButton size="large" sx={{color:'inherit'}}>
+                        <Badge badgeContent={4} color='secondary'>
+                            <ShoppingCart/>
+                        </Badge>
+                    </IconButton>
+                    <List sx={{display:'flex'}}>
+                        {rightLinks.map((link)=>{
+                            return (
+                                <>
+                                    <ListItem 
+                                    component={NavLink}
+                                    to={link.path}
+                                    key={link.path}
+                                    sx=
                                         {
-                                            color:'inherit',
-                                            typography:'h6',
-                                            '&:hover':{
-                                                color:'grey.500'
-                                            },
-                                            '&.active':{
-                                                color:'text.secondary'
+                                            {
+                                                color:'inherit',
+                                                typography:'h6',
+                                                '&:hover':{
+                                                    color:'grey.500'
+                                                },
+                                                '&.active':{
+                                                    color:'text.secondary'
+                                                }
                                             }
                                         }
-                                    }
-                                >
-                                    {link.title.toUpperCase()}
-                                </ListItem>
-                            </>
-                        )
-                    })}
-                </List>
+                                    >
+                                        {link.title.toUpperCase()}
+                                    </ListItem>
+                                </>
+                            )
+                        })}
+                    </List>
             </Box>
             </Toolbar>
         </AppBar>
