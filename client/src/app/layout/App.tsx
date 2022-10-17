@@ -7,6 +7,11 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Header from './Header';
 import { CssBaseline,Container,createTheme,ThemeProvider } from '@mui/material';
+import { Route } from 'react-router-dom';
+import Home from '../../features/home/Home';
+import ProductDetails from '../../features/catalog/ProductDetails';
+import About from '../../features/about/About';
+import Contact from '../../features/contact/Contact';
 
 function App() {
 
@@ -28,7 +33,11 @@ function App() {
         <CssBaseline/>
         <Header toggle={toggle}/>
         <Container>
-          <Catalog/>
+          <Route path='/' exact component={Home}/>
+          <Route path='/catalog' exact component={Catalog}/>
+          <Route path='/catalog/:id' component={ProductDetails}/>
+          <Route path='/about' component={About}/>
+          <Route path='/contact' component={Contact}/>
         </Container>
       </ThemeProvider>
     </>
