@@ -10,9 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
-        [ApiController]
-        [Route("[controller]")]
-        public class ProductsController : ControllerBase
+        public class ProductsController : BaseApiController
         {
            
             private readonly ILogger<ProductsController> _logger;
