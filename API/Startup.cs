@@ -47,6 +47,7 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseCookiePolicy();
 
             if (env.IsDevelopment())
             {
@@ -60,7 +61,7 @@ namespace API
             app.UseRouting();
 
             app.UseCors(opt=>{
-                opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
             });
 
             app.UseAuthorization();

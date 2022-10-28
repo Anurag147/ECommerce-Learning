@@ -74,13 +74,31 @@ namespace API.Controllers
             [HttpDelete]
             public async Task<ActionResult> RemoveFromBasket(int productId, int quantity)
             {
-                return NotFound();
+                 var basket = await _context.Baskets
+                  .Include(i=>i.Items)
+                  .ThenInclude(p=>p.Product)
+                  .FirstOrDefaultAsync(x=>x.BuyerId==Request.Cookies["buyerId"]);
+
+                  if(basket==null){
+                    return NotFound();
+                  }
+
+                  basket.RemoveItem(productId,quantity);
+                  
+                  await _context.SaveChangesAsync();
+
+                  return Ok();
             }
 
             private Basket CreateBasket()
             {
                 var buyerId = Guid.NewGuid().ToString();
-                var cookieOptions = new CookieOptions{IsEssential=true,Expires=DateTime.Now.AddDays(30)};
+                var cookieOptions = new CookieOptions{
+                    IsEssential=true,
+                    Expires=DateTime.Now.AddDays(30),
+                    SameSite=SameSiteMode.None,
+                    Secure=true,
+                };
                 Response.Cookies.Append("buyerId",buyerId,cookieOptions);
                 var basket = new Basket{BuyerId=buyerId};
                 _context.Baskets.Add(basket);

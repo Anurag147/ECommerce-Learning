@@ -1,6 +1,6 @@
 import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography,Switch,List,ListItem, IconButton, Badge,Box } from "@mui/material"
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export interface HeaderProps{
     toggle:()=>void
@@ -73,7 +73,7 @@ const Header = (props:HeaderProps) => {
                     })}
                 </List>
                 <Box sx={{display:'flex',alignItems:'center'}}>
-                    <IconButton size="large" sx={{color:'inherit'}}>
+                    <IconButton component={Link} to='/basket' size="large" sx={{color:'inherit'}}>
                         <Badge badgeContent={4} color='secondary'>
                             <ShoppingCart/>
                         </Badge>
