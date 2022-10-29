@@ -1,6 +1,8 @@
 import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography,Switch,List,ListItem, IconButton, Badge,Box } from "@mui/material"
+import { useState,useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useStoreContext } from "../context/StoreContext";
 
 export interface HeaderProps{
     toggle:()=>void
@@ -34,6 +36,18 @@ const rightLinks = [
 ];
 
 const Header = (props:HeaderProps) => {
+
+    const [count,setCount] = useState(0);
+    const StoreContext = useStoreContext();
+
+   useEffect(()=>{
+    let counter = 0;
+    StoreContext?.basket?.items.forEach((item)=>{
+         counter+=item.quantity
+    });
+    setCount(counter);
+   },[StoreContext?.basket]);
+
     return (
         <AppBar sx={{marginBottom:'20px'}} position="static">
             <Toolbar sx={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
@@ -74,7 +88,7 @@ const Header = (props:HeaderProps) => {
                 </List>
                 <Box sx={{display:'flex',alignItems:'center'}}>
                     <IconButton component={Link} to='/basket' size="large" sx={{color:'inherit'}}>
-                        <Badge badgeContent={4} color='secondary'>
+                        <Badge badgeContent={count} color='secondary'>
                             <ShoppingCart/>
                         </Badge>
                     </IconButton>

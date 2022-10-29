@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Catalog from '../../features/catalog/Catalog';
 import '@fontsource/roboto/300.css';
@@ -15,10 +15,25 @@ import Contact from '../../features/contact/Contact';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BasketPage from '../../features/basket/BasketPage';
+import { useStoreContext } from '../context/StoreContext';
+import { getCookie } from '../util/util';
+import agent from '../api/agent';
 
 function App() {
 
   const [mode,setMode] = useState(false);
+  const StoreContext = useStoreContext();
+
+
+  useEffect(()=>{
+      const buyerId = getCookie('buyerId');
+      if(buyerId){
+        agent.Basket.get()
+        .then((res)=>StoreContext?.setBasket(res))
+        .catch((e)=>console.log(e))
+        .finally(()=>{})
+      }
+  },[]);
 
   const toggle = () => {
     setMode(!mode)
