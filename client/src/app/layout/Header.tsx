@@ -46,7 +46,7 @@ const Header = (props:HeaderProps) => {
          counter+=item.quantity
     });
     setCount(counter);
-   },[StoreContext?.basket]);
+   },[StoreContext?.basket?.items]);
 
     return (
         <AppBar sx={{marginBottom:'20px'}} position="static">

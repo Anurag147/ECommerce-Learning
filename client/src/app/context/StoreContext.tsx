@@ -19,7 +19,7 @@ export const StoreProvider = ({children}: PropsWithChildren<any>) => {
    const removeItem = (productId:number,quantity:number) => {
             if(!basket) return;
             const items = [...basket.items];
-            const itemIndex = items.findIndex(i=>i.productId==productId);
+            const itemIndex = items.findIndex(i=>i.productId===productId);
             if(itemIndex>=0){
                 items[itemIndex].quantity-=quantity;
                 if(items[itemIndex].quantity===0){

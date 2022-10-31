@@ -18,6 +18,7 @@ import BasketPage from '../../features/basket/BasketPage';
 import { useStoreContext } from '../context/StoreContext';
 import { getCookie } from '../util/util';
 import agent from '../api/agent';
+import { CheckoutPage } from '../../features/checkout/CheckoutPage';
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
           <Route path='/about' component={About}/>
           <Route path='/contact' component={Contact}/>
           <Route path='/basket' component={BasketPage}/>
+          <Route path='/checkout' component={CheckoutPage}/>
         </Container>
       </ThemeProvider>
     </>
