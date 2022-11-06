@@ -19,18 +19,25 @@ import { useStoreContext } from '../context/StoreContext';
 import { getCookie } from '../util/util';
 import agent from '../api/agent';
 import { CheckoutPage } from '../../features/checkout/CheckoutPage';
+import { useAppDispatch } from '../store/store';
+import { setBasket } from '../../features/basket/BasketSlice';
 
 function App() {
 
   const [mode,setMode] = useState(false);
   const StoreContext = useStoreContext();
+  const dispatch = useAppDispatch();
 
 
   useEffect(()=>{
       const buyerId = getCookie('buyerId');
+      console.log(buyerId);
       if(buyerId){
         agent.Basket.get()
-        .then((res)=>StoreContext?.setBasket(res))
+        .then((res)=>{
+          console.log(res);
+          dispatch(setBasket(res))
+        })
         .catch((e)=>console.log(e))
         .finally(()=>{})
       }

@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import agent from '../../app/api/agent';
 import { Product } from '../../app/models/Product';
+import { useAppDispatch } from '../../app/store/store';
+import { addBasketItemAsync} from '../basket/BasketSlice';
 
 export interface ProductCardProps {
     product:Product;
@@ -11,15 +13,10 @@ export interface ProductCardProps {
 const ProductCard = (props:ProductCardProps) => {
 
     const [loading, setLoading] = useState(false);
+    const dispatch = useAppDispatch();
 
-    const handleAdd = (productId:number) => {
-        setLoading(true);
-        agent.Basket.addItem(productId)
-        .catch(err=>console.log(err))
-        .finally(()=>setLoading(false));
-    }
-
-    return (
+ 
+   return (
         <Card sx={{ maxWidth: 345 }}>
             <CardHeader
             avatar={
@@ -49,7 +46,7 @@ const ProductCard = (props:ProductCardProps) => {
             <CardActions>
                 <LoadingButton 
                 loading={loading} 
-                onClick={()=>handleAdd(props.product.id)} 
+                onClick={()=>dispatch(addBasketItemAsync({productId:props.product.id,quantity:1}))} 
                 size="small">
                     Add to Cart
                 </LoadingButton>

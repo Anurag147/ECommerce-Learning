@@ -1,21 +1,22 @@
 import { TableContainer, Paper, Table, TableBody, TableRow, TableCell, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useStoreContext } from "../../app/context/StoreContext";
+import { useAppSelector } from "../../app/store/store";
 
 export default function BasketSummary() {
 
-    const StoreContext = useStoreContext();
+    const {basket} = useAppSelector(state=>state.basket);
     const [subtotal,setSubTotal] = useState(0);
     const [deliveryFee,setDeliveryFee] = useState(0);
 
     useEffect(()=>{
        let sb = 0; 
-       StoreContext?.basket?.items.forEach((item)=>{
+       basket?.items.forEach((item)=>{
         sb+=(item.quantity*item.price);
        });
        setSubTotal(sb);
        sb>10000?setDeliveryFee(500):setDeliveryFee(0);
-    },[StoreContext?.basket?.items])
+    },[basket?.items])
 
     return (
         <>

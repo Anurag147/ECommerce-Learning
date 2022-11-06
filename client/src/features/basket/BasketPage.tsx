@@ -5,23 +5,14 @@ import { useStoreContext } from "../../app/context/StoreContext";
 import agent from "../../app/api/agent";
 import BasketSummary from "./BasketSummary";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/store/store";
+import { addBasketItemAsync, removeBasketItemAsync} from "./BasketSlice";
 
 const BasketPage = () => {
-    const StoreContext = useStoreContext();
+    const {basket} = useAppSelector(state=>state.basket);
+    const dispatch = useAppDispatch(); 
 
-    const handleAddItem = (productId:number) => {
-         agent.Basket.addItem(productId)
-         .then(basket=>console.log(basket))
-         .catch(err=>console.log(err));
-    };
-
-    const handleRemoveItem = (productId:number,quantity=1) => {
-        agent.Basket.removeItem(productId,quantity)
-        .then(()=>StoreContext?.removeItem(productId,quantity))
-        .catch(err=>console.log(err));
-   };
-
-    if(!StoreContext?.basket) return <Typography variant="h3">No items in Basket</Typography>
+    if(!basket) return <Typography variant="h3">No items in Basket</Typography>
 
     return (
         <>
@@ -37,7 +28,7 @@ const BasketPage = () => {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {StoreContext?.basket.items.map((item) => (
+                {basket.items.map((item) =>(
                     <TableRow
                     key={item.productId}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -50,17 +41,17 @@ const BasketPage = () => {
                     </TableCell>
                     <TableCell align="right">${(item.price/100).toFixed(2)}</TableCell>
                     <TableCell align="center">
-                        <IconButton onClick={()=>handleRemoveItem(item.productId)} color="error">
+                        <IconButton onClick={()=>dispatch(removeBasketItemAsync({productId:item.productId, quantity:1}))} color="error">
                             <Remove/>
                         </IconButton>
                         {item.quantity}
-                        <IconButton onClick={()=>handleAddItem(item.productId)} color="error">
+                        <IconButton onClick={()=>dispatch(addBasketItemAsync({productId:item.productId, quantity:1}))} color="error">
                             <Add/>
                         </IconButton>
                     </TableCell>
                     <TableCell align="right">${((item.price * item.quantity)/100).toFixed(2)}</TableCell>
                     <TableCell align="right">
-                        <IconButton onClick={()=>handleRemoveItem(item.productId,item.quantity)} color='error'>
+                        <IconButton onClick={()=>dispatch(removeBasketItemAsync({productId:item.productId, quantity:item.quantity}))} color='error'>
                             <Delete/>
                         </IconButton>
                     </TableCell>

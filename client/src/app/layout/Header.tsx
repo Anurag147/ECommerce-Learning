@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography,Switch,List,ListItem, IconButton, Badge,Box
 import { useState,useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useStoreContext } from "../context/StoreContext";
+import { useAppSelector } from "../store/store";
 
 export interface HeaderProps{
     toggle:()=>void
@@ -38,15 +39,15 @@ const rightLinks = [
 const Header = (props:HeaderProps) => {
 
     const [count,setCount] = useState(0);
-    const StoreContext = useStoreContext();
+    const {basket} = useAppSelector(state=>state.basket);
 
    useEffect(()=>{
     let counter = 0;
-    StoreContext?.basket?.items.forEach((item)=>{
+    basket?.items?.forEach((item)=>{
          counter+=item.quantity
     });
     setCount(counter);
-   },[StoreContext?.basket?.items]);
+   },[basket?.items]);
 
     return (
         <AppBar sx={{marginBottom:'20px'}} position="static">
