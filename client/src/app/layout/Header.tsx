@@ -2,7 +2,6 @@ import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Toolbar, Typography,Switch,List,ListItem, IconButton, Badge,Box } from "@mui/material"
 import { useState,useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useStoreContext } from "../context/StoreContext";
 import { useAppSelector } from "../store/store";
 
 export interface HeaderProps{
