@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpGet("currentUser")]
+        [HttpGet("currentUser")] 
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await _user.FindByNameAsync(User.Identity.Name);

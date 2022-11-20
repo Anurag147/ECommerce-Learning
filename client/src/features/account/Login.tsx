@@ -12,6 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { FieldValues, useForm } from 'react-hook-form';
+import agent from '../../app/api/agent';
+import { useHistory } from 'react-router-dom';
+import { useAppDispatch } from '../../app/store/store';
+import { signInUser } from './accountSlice';
 
 function Copyright(props: any) {
   return (
@@ -29,13 +34,15 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export const Login = ()=> {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+  const history = useHistory();
+  const dipatch = useAppDispatch();
+
+  const {register,handleSubmit,formState:{isSubmitting}} = useForm();
+
+   const submitForm = async(data:FieldValues) => {
+    await dipatch(signInUser(data));
+    history.push('/catalog');
   };
 
   return (
@@ -56,26 +63,25 @@ export const Login = ()=> {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit(submitForm)} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
-              required
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
               autoComplete="email"
               autoFocus
+              {...register('username',{required:true})}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              {...register('password',{required:true})}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
